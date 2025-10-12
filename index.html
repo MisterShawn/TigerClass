@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feelings Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&family=Noto+Color+Emoji&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="h-full bg-orange-400 p-6" id="mainBody">
+    <div class="h-full flex flex-col">
+        <!-- Header -->
+        <div class="mb-8">
+            <!-- Buttons Row -->
+            <div class="flex justify-between items-center mb-6">
+                <div class="flex gap-2">
+                    <button onclick="requestPassword('edit')" class="bg-white bg-opacity-20 hover:bg-opacity-30 text-white px-4 py-3 rounded-full transition-all flex items-center gap-2" id="editButton">
+                        <i class="fas fa-edit"></i> Edit
+                    </button>
+                    <button onclick="requestPassword('lock')" class="bg-white bg-opacity-20 hover:bg-opacity-30 text-white px-4 py-3 rounded-full transition-all flex items-center gap-2" id="lockButton">
+                        <i class="fas fa-unlock"></i> Lock
+                    </button>
+                </div>
+                <button onclick="requestPassword('reset')" class="bg-white bg-opacity-20 hover:bg-opacity-30 text-white px-4 py-3 rounded-full transition-all flex items-center gap-2" id="resetButton">
+                    <i class="fas fa-redo"></i> Reset
+                </button>
+            </div>
+            
+            <!-- Title Row -->
+            <div class="text-center">
+                <h1 class="text-5xl font-semibold text-white mb-2" id="mainTitle">How does everyone feel?</h1>
+                <p class="text-white text-2xl opacity-90" id="subtitle">Click on your name to share your feelings!</p>
+            </div>
+        </div>
+
+        <!-- Students Grid -->
+        <div id="studentsGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 flex-1 content-center">
+            <!-- Student cards will be generated here -->
+        </div>
+
+        <!-- Feelings Modal -->
+        <div id="feelingsModal" class="fixed inset-0 bg-orange-400 hidden z-40">
+            <div class="h-full flex flex-col p-6">
+                <!-- Header -->
+                <div class="mb-8">
+                    <!-- Buttons Row -->
+                    <div class="flex justify-between items-center mb-6">
+                        <div class="flex gap-2">
+                            <button onclick="closeFeelings()" class="bg-white bg-opacity-20 hover:bg-opacity-30 text-white px-4 py-3 rounded-full transition-all flex items-center gap-2">
+                                <i class="fas fa-arrow-left"></i> Back
+                            </button>
+                        </div>
+                        <button onclick="resetStudent()" class="bg-white bg-opacity-20 hover:bg-opacity-30 text-white px-4 py-3 rounded-full transition-all flex items-center gap-2">
+                            <i class="fas fa-redo"></i> Reset
+                        </button>
+                    </div>
+                    
+                    <!-- Title Row -->
+                    <div class="text-center">
+                        <h2 class="text-5xl font-semibold text-white mb-2" id="feelingsTitle">How are you feeling, <span id="selectedStudent" class="text-yellow-300"></span>?</h2>
+                        <p class="text-white text-2xl opacity-90" id="feelingsSubtitle">Choose the feeling that matches how you feel right now</p>
+                    </div>
+                </div>
+                
+                <div id="feelingsGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 flex-1 content-center">
+                    <!-- Feelings options will be generated here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings Modal -->
+        <div id="settingsModal" class="fixed inset-0 bg-black bg-opacity-50 modal-backdrop hidden items-center justify-center z-50">
+            <div class="bg-white rounded-2xl p-6 m-4 max-w-4xl w-full h-[80%] flex flex-col">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-3xl font-semibold text-gray-800"><i class="fas fa-cog"></i> Settings</h2>
+                    <button onclick="closeSettings()" class="text-gray-500 hover:text-gray-700 text-2xl"><i class="fas fa-times"></i></button>
+                </div>
+                
+                <!-- Tab Navigation -->
+                <div class="flex border-b border-gray-200 mb-6">
+                    <button onclick="switchTab('students')" id="studentsTab" class="px-6 py-3 font-semibold text-orange-600 border-b-2 border-orange-600 bg-orange-50">
+                        <i class="fas fa-users"></i> Students
+                    </button>
+                    <button onclick="switchTab('feelings')" id="feelingsTab" class="px-6 py-3 font-semibold text-gray-500 hover:text-gray-700 border-b-2 border-transparent">
+                        <i class="fas fa-smile"></i> Feelings
+                    </button>
+                    <button onclick="switchTab('appearance')" id="appearanceTab" class="px-6 py-3 font-semibold text-gray-500 hover:text-gray-700 border-b-2 border-transparent">
+                        <i class="fas fa-palette"></i> Appearance
+                    </button>
+                    <button onclick="switchTab('security')" id="securityTab" class="px-6 py-3 font-semibold text-gray-500 hover:text-gray-700 border-b-2 border-transparent">
+                        <i class="fas fa-shield-alt"></i> Security
+                    </button>
+                    <button onclick="switchTab('backup')" id="backupTab" class="px-6 py-3 font-semibold text-gray-500 hover:text-gray-700 border-b-2 border-transparent">
+                        <i class="fas fa-download"></i> Backup
+                    </button>
+                </div>
+
+                <!-- Tab Content -->
+                <div id="tabContent" class="flex-1 overflow-y-auto">
+                    <!-- Students Tab -->
+                    <div id="studentsTabContent" class="tab-content">
+                        <div class="space-y-6 pb-6">
+                            <!-- Add Student Section -->
+                            <div class="bg-white rounded-lg p-4 border border-gray-200">
+                                <h4 class="text-lg font-semibold text-gray-800 mb-3">Add Student</h4>
+                                <p class="text-sm text-gray-600 mb-4">Add new students to your classroom dashboard.</p>
+                                
+                                <div class="space-y-3">
+                                    <div class="flex gap-2">
+                                        <input type="text" id="newStudentName" placeholder="Enter student name" class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:placeholder-transparent">
+                                        <button onclick="addStudent()" id="addStudentButton" class="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg font-semibold flex items-center gap-2">
+                                            <i class="fas fa-plus"></i> Add Student
+                                        </button>
+                                    </div>
+                                    
+                                    <div class="text-xs text-gray-500 bg-gray-50 p-3 rounded-lg">
+                                        <i class="fas fa-info-circle"></i> Students will appear as cards on the main dashboard where they can select their feelings.
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Manage Students Section -->
+                            <div class="bg-white rounded-lg p-4 border border-gray-200">
+                                <h4 class="text-lg font-semibold text-gray-800 mb-3">Manage Students</h4>
+                                <p class="text-sm text-gray-600 mb-4">Drag to reorder students or remove them from your classroom.</p>
+                                
+                                <div id="studentsList" class="grid grid-cols-1 gap-2 max-h-64 overflow-y-auto mb-4">
+                                    <!-- Students list will be generated here -->
+                                </div>
+                                
+                                <button onclick="randomizeStudentOrder()" class="w-full bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded-lg font-semibold flex items-center justify-center gap-2">
+                                    <i class="fas fa-random"></i> Randomize Order
+                                </button>
+                            </div>
+                            
+                            <!-- Student Information -->
+                            <div class="bg-white rounded-lg p-4 border border-gray-200">
+                                <h4 class="text-lg font-semibold text-gray-800 mb-3">Student Information</h4>
+                                <div class="text-sm text-gray-600 space-y-2">
+                                    <p><i class="fas fa-users text-blue-500"></i> <strong>Current students:</strong> <span id="studentCount">0</span></p>
+                                    <p><i class="fas fa-arrows-alt text-purple-500"></i> <strong>Reorder:</strong> Drag and drop students to change their order on the dashboard</p>
+                                    <p><i class="fas fa-trash-alt text-red-500"></i> <strong>Remove:</strong> Click the × button to remove a student (this will also clear their current feeling)</p>
+                                    <p><i class="fas fa-plus text-green-500"></i> <strong>Add more:</strong> There's no limit to how many students you can add</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Feelings Tab -->
+                    <div id="feelingsTabContent" class="tab-content hidden">
+                        <div class="space-y-6 pb-6">
+                            <!-- Add/Edit Feeling Section -->
+                            <div class="bg-white rounded-lg p-4 border border-gray-200">
+                                <h4 class="text-lg font-semibold text-gray-800 mb-3">Add Feeling</h4>
+                                <p class="text-sm text-gray-600 mb-4">Create custom feelings with emojis and colors for your students to choose from.</p>
+                                
+                                <div class="space-y-4">
+                                    <!-- Preview -->
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">Preview</label>
+                                        <div id="textColorPreview" class="w-full h-20 rounded-lg border-2 border-gray-300 flex flex-col items-center justify-center font-semibold">
+                                            <span id="previewEmoji" class="text-2xl mb-1">😊</span>
+                                            <span id="previewText" class="font-medium text-black">Happy</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Input Fields -->
+                                    <div class="grid grid-cols-2 gap-3">
+                                        <input type="text" id="newFeelingName" placeholder="Feeling name" class="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:placeholder-transparent">
+                                        <input type="text" id="newFeelingEmoji" placeholder="😊" class="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 text-center focus:placeholder-transparent">
+                                    </div>
+                                    
+                                    <!-- Color Options -->
+                                    <div class="grid grid-cols-2 gap-4">
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 mb-2">Background Color</label>
+                                            <button onclick="openColorPicker('feeling')" id="feelingColorButton" class="w-full h-12 rounded-lg border-2 border-gray-300 bg-yellow-400 flex items-center justify-center font-semibold text-black hover:opacity-80 transition-opacity">
+                                                Click to choose color
+                                            </button>
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 mb-2">Text Color</label>
+                                            <div class="flex gap-4">
+                                                <label class="flex items-center cursor-pointer">
+                                                    <input type="radio" name="textColor" value="black" checked class="mr-2">
+                                                    <span class="text-black font-medium">Dark Text</span>
+                                                </label>
+                                                <label class="flex items-center cursor-pointer">
+                                                    <input type="radio" name="textColor" value="white" class="mr-2">
+                                                    <span class="text-white font-medium bg-gray-800 px-2 py-1 rounded">Light Text</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Action Buttons -->
+                                    <div class="flex gap-2">
+                                        <button onclick="addFeeling()" id="addFeelingButton" class="flex-1 bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg font-semibold flex items-center justify-center gap-2">
+                                            <i class="fas fa-plus"></i> Add Feeling
+                                        </button>
+                                        <button onclick="deleteCurrentFeeling()" id="deleteFeelingButton" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg font-semibold hidden flex items-center gap-2">
+                                            <i class="fas fa-trash"></i> Delete
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Manage Feelings Section -->
+                            <div class="bg-white rounded-lg p-4 border border-gray-200">
+                                <h4 class="text-lg font-semibold text-gray-800 mb-3">Manage Feelings</h4>
+                                <p class="text-sm text-gray-600 mb-4">Drag to reorder feelings or click edit to modify existing ones.</p>
+                                
+                                <div id="feelingsList" class="grid grid-cols-1 gap-2 max-h-64 overflow-y-auto">
+                                    <!-- Feelings list will be generated here -->
+                                </div>
+                            </div>
+                            
+                            <!-- Feelings Information -->
+                            <div class="bg-white rounded-lg p-4 border border-gray-200">
+                                <h4 class="text-lg font-semibold text-gray-800 mb-3">Feelings Information</h4>
+                                <div class="text-sm text-gray-600 space-y-2">
+                                    <p><i class="fas fa-smile text-yellow-500"></i> <strong>Current feelings:</strong> <span id="feelingCount">0</span></p>
+                                    <p><i class="fas fa-palette text-purple-500"></i> <strong>Customize:</strong> Choose any color and emoji combination for your feelings</p>
+                                    <p><i class="fas fa-arrows-alt text-blue-500"></i> <strong>Reorder:</strong> Drag and drop feelings to change their order in the selection screen</p>
+                                    <p><i class="fas fa-edit text-green-500"></i> <strong>Edit:</strong> Click the edit button on any feeling to modify it</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Appearance Tab -->
+                    <div id="appearanceTabContent" class="tab-content hidden">
+                        <div class="space-y-6 pb-6">
+                            <!-- Background Color Section -->
+                            <div class="bg-white rounded-lg p-4 border border-gray-200">
+                                <h4 class="text-lg font-semibold text-gray-800 mb-3">Background Color</h4>
+                                <p class="text-sm text-gray-600 mb-4">Choose the background color for your dashboard and feelings selection screen.</p>
+                                
+                                <div class="space-y-3">
+                                    <button onclick="openColorPicker('background')" id="backgroundColorButton" class="w-full h-12 rounded-lg border-2 border-gray-300 bg-purple-400 flex items-center justify-center font-semibold text-white hover:opacity-80 transition-opacity">
+                                        <i class="fas fa-palette"></i> Background Color
+                                    </button>
+                                    
+                                    <div class="text-xs text-gray-500 bg-gray-50 p-3 rounded-lg">
+                                        <i class="fas fa-info-circle"></i> The background color will be applied to both the main dashboard and the feelings selection screen.
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Text Content Section -->
+                            <div class="bg-white rounded-lg p-4 border border-gray-200">
+                                <h4 class="text-lg font-semibold text-gray-800 mb-3">Text Content</h4>
+                                <p class="text-sm text-gray-600 mb-4">Customize the titles and messages shown to your students.</p>
+                                
+                                <div class="space-y-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">Main Title</label>
+                                        <input type="text" id="mainTitleInput" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:placeholder-transparent">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">Subtitle</label>
+                                        <input type="text" id="subtitleInput" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:placeholder-transparent">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">Feelings Title</label>
+                                        <input type="text" id="feelingsTitleInput" placeholder="Use {name} for student name" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:placeholder-transparent">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">Feelings Subtitle</label>
+                                        <input type="text" id="feelingsSubtitleInput" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:placeholder-transparent">
+                                    </div>
+                                    
+                                    <button onclick="updateAppearance()" class="w-full bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold flex items-center justify-center gap-2">
+                                        <i class="fas fa-save"></i> Update Appearance
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <!-- Appearance Information -->
+                            <div class="bg-white rounded-lg p-4 border border-gray-200">
+                                <h4 class="text-lg font-semibold text-gray-800 mb-3">Appearance Information</h4>
+                                <div class="text-sm text-gray-600 space-y-2">
+                                    <p><i class="fas fa-paint-brush text-purple-500"></i> <strong>Background:</strong> Choose from a variety of colors to match your classroom theme</p>
+                                    <p><i class="fas fa-font text-blue-500"></i> <strong>Main title:</strong> The large heading shown on the main dashboard</p>
+                                    <p><i class="fas fa-comment text-green-500"></i> <strong>Subtitle:</strong> The instruction text below the main title</p>
+                                    <p><i class="fas fa-user text-orange-500"></i> <strong>Feelings title:</strong> Use {name} to include the student's name in the title</p>
+                                    <p><i class="fas fa-heart text-red-500"></i> <strong>Feelings subtitle:</strong> Instructions shown when students are selecting their feelings</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Security Tab -->
+                    <div id="securityTabContent" class="tab-content hidden">
+                        <div class="space-y-6 pb-6">
+                            <!-- Password Protection Toggle -->
+                            <div class="bg-white rounded-lg p-4 border border-gray-200">
+                                <h4 class="text-lg font-semibold text-gray-800 mb-3">Password Protection</h4>
+                                <p class="text-sm text-gray-600 mb-4">Enable or disable password protection for settings, lock/unlock, and reset functions.</p>
+                                
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center gap-3">
+                                        <i class="fas fa-shield-alt text-2xl text-gray-600"></i>
+                                        <div>
+                                            <p class="font-medium text-gray-800">Require Password</p>
+                                            <p class="text-sm text-gray-500">Protect dashboard functions with a password</p>
+                                        </div>
+                                    </div>
+                                    <label class="relative inline-flex items-center cursor-pointer">
+                                        <input type="checkbox" id="passwordToggle" class="sr-only peer" onchange="togglePasswordProtection()">
+                                        <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                                    </label>
+                                </div>
+                                
+                                <div id="passwordStatusMessage" class="mt-3 p-3 rounded-lg bg-gray-100 border border-gray-300 text-gray-700">
+                                    <i class="fas fa-info-circle"></i> Password protection is currently <span id="passwordStatus">disabled</span>. Dashboard functions are accessible without a password.
+                                </div>
+                            </div>
+                            
+                            <!-- Change Password Section -->
+                            <div id="changePasswordSection" class="bg-white rounded-lg p-4 border border-gray-200">
+                                    <h4 class="text-lg font-semibold text-gray-800 mb-3">Change Password</h4>
+                                    <p class="text-sm text-gray-600 mb-4">Update the password required to access settings, lock/unlock, and reset functions.</p>
+                                    
+                                    <div class="space-y-3">
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 mb-2">Current Password</label>
+                                            <input type="password" id="currentPasswordInput" placeholder="Enter current password" pattern="[0-9]*" inputmode="numeric" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:placeholder-transparent">
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 mb-2">New Password (4-10 numbers)</label>
+                                            <input type="password" id="newPasswordInput" placeholder="Enter 4-10 numbers" pattern="[0-9]*" inputmode="numeric" maxlength="10" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:placeholder-transparent">
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 mb-2">Confirm New Password</label>
+                                            <input type="password" id="confirmPasswordInput" placeholder="Confirm new password" pattern="[0-9]*" inputmode="numeric" maxlength="10" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:placeholder-transparent">
+                                        </div>
+                                        <button onclick="changePassword()" class="w-full bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg font-semibold">
+                                            <i class="fas fa-key"></i> Update Password
+                                        </button>
+                                    </div>
+                                    
+                                    <div id="passwordChangeMessage" class="mt-3 p-3 rounded-lg hidden">
+                                        <!-- Success/error messages will appear here -->
+                                    </div>
+                                </div>
+                                
+                                <div class="bg-white rounded-lg p-4 border border-gray-200">
+                                    <h4 class="text-lg font-semibold text-gray-800 mb-3">Password Information</h4>
+                                    <div class="text-sm text-gray-600 space-y-2">
+                                        <p><i class="fas fa-info-circle text-blue-500"></i> <strong>Current password:</strong> <span class="font-mono bg-gray-100 px-2 py-1 rounded" id="currentPasswordDisplay">••••</span></p>
+                                        <p><i class="fas fa-toggle-on text-purple-500"></i> <strong>Protection status:</strong> <span id="protectionStatusText">Disabled</span></p>
+                                        <p><i class="fas fa-key text-green-500"></i> Password must be 4-10 numbers only (e.g., 1234, 567890)</p>
+                                        <p><i class="fas fa-exclamation-triangle text-amber-500"></i> Keep your password secure and memorable</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    <!-- Backup Tab -->
+                    <div id="backupTabContent" class="tab-content hidden">
+                        <div class="space-y-6 pb-6">
+                            <!-- Export Data Section -->
+                            <div class="bg-white rounded-lg p-4 border border-gray-200">
+                                <h4 class="text-lg font-semibold text-gray-800 mb-3">Export Data</h4>
+                                <p class="text-sm text-gray-600 mb-4">Download a backup file containing all your students, feelings, settings, and current selections.</p>
+                                
+                                <div class="space-y-3">
+                                    <button onclick="exportData()" class="w-full bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold flex items-center justify-center gap-2">
+                                        <i class="fas fa-download"></i> Download Backup File
+                                    </button>
+                                    
+                                    <div class="text-xs text-gray-500 bg-gray-50 p-3 rounded-lg">
+                                        <i class="fas fa-info-circle"></i> The backup file will include all your custom students, feelings, appearance settings, and current feeling selections. Keep this file safe!
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Import Data Section -->
+                            <div class="bg-white rounded-lg p-4 border border-gray-200">
+                                <h4 class="text-lg font-semibold text-gray-800 mb-3">Import Data</h4>
+                                <p class="text-sm text-gray-600 mb-4">Restore your dashboard from a previously exported backup file.</p>
+                                
+                                <div class="space-y-3">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">Select Backup File</label>
+                                        <input type="file" id="importFileInput" accept=".json" onchange="handleFileSelect(event)" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-orange-50 file:text-orange-700 hover:file:bg-orange-100">
+                                    </div>
+                                    
+                                    <!-- Import Preview -->
+                                    <div id="importPreview" class="hidden">
+                                        <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                                            <h5 class="font-semibold text-yellow-800 mb-2"><i class="fas fa-eye"></i> Preview Import</h5>
+                                            <div id="importDetails" class="text-sm text-yellow-700 space-y-1 mb-3">
+                                                <!-- Import details will be populated here -->
+                                            </div>
+                                            <div class="flex gap-2">
+                                                <button onclick="confirmImport()" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg font-semibold flex items-center gap-2">
+                                                    <i class="fas fa-check"></i> Import Data
+                                                </button>
+                                                <button onclick="cancelImport()" class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded-lg font-semibold">
+                                                    Cancel
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="text-xs text-red-500 bg-red-50 p-3 rounded-lg">
+                                        <i class="fas fa-exclamation-triangle"></i> <strong>Warning:</strong> Importing will replace all current data including students, feelings, and settings. Make sure to export your current data first if you want to keep it.
+                                    </div>
+                                </div>
+                            </div>
+                            
+
+                            
+                            <!-- Backup Information -->
+                            <div class="bg-white rounded-lg p-4 border border-gray-200">
+                                <h4 class="text-lg font-semibold text-gray-800 mb-3">Backup Information</h4>
+                                <div class="text-sm text-gray-600 space-y-2">
+                                    <p><i class="fas fa-file-export text-blue-500"></i> <strong>Export:</strong> Creates a JSON file with all your dashboard data</p>
+                                    <p><i class="fas fa-file-import text-green-500"></i> <strong>Import:</strong> Restores dashboard from a backup file</p>
+                                    <p><i class="fas fa-shield-alt text-purple-500"></i> <strong>Safe:</strong> Backup files contain no sensitive information</p>
+                                    <p><i class="fas fa-clock text-orange-500"></i> <strong>Regular backups:</strong> Export your data regularly to prevent loss</p>
+                                    <p><i class="fas fa-share-alt text-teal-500"></i> <strong>Transfer:</strong> Use backup files to move your dashboard to another device</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+            </div>
+        </div>
+
+        <!-- Color Picker Modal -->
+        <div id="colorPickerModal" class="fixed inset-0 bg-black bg-opacity-50 modal-backdrop hidden items-center justify-center z-50">
+            <div class="bg-white rounded-2xl p-6 m-4 max-w-2xl w-full max-h-[90%] overflow-y-auto">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-semibold text-gray-800"><i class="fas fa-palette"></i> Choose Color</h2>
+                    <button onclick="closeColorPicker()" class="text-gray-500 hover:text-gray-700 text-2xl"><i class="fas fa-times"></i></button>
+                </div>
+                
+                <div id="colorGrid" class="grid grid-cols-8 gap-3 mb-6">
+                    <!-- Color options will be generated here -->
+                </div>
+                
+                <div class="flex justify-center">
+                    <button onclick="closeColorPicker()" class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-6 py-3 rounded-lg font-semibold">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Confirmation Modal -->
+        <div id="confirmationModal" class="fixed inset-0 bg-black bg-opacity-50 modal-backdrop hidden items-center justify-center z-50">
+            <div class="bg-white rounded-2xl p-6 m-4 max-w-md w-full">
+                <div class="text-center mb-6">
+                    <div class="text-6xl mb-4" id="confirmationIcon">⚠️</div>
+                    <h2 class="text-2xl font-semibold text-gray-800 mb-2" id="confirmationTitle">Confirm Action</h2>
+                    <p class="text-gray-600" id="confirmationMessage">Are you sure you want to proceed?</p>
+                </div>
+                
+                <div class="flex gap-3 justify-center">
+                    <button onclick="cancelConfirmation()" class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-6 py-3 rounded-lg font-semibold">
+                        Cancel
+                    </button>
+                    <button onclick="executeConfirmation()" id="confirmButton" class="bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-lg font-semibold">
+                        Delete
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Password Keypad Modal -->
+        <div id="passwordModal" class="fixed inset-0 bg-black bg-opacity-50 modal-backdrop hidden items-center justify-center z-50">
+            <div class="bg-white rounded-2xl p-6 m-4 max-w-md w-full">
+                <div class="text-center mb-6">
+                    <h2 class="text-2xl font-semibold text-gray-800 mb-2"><i class="fas fa-lock cursor-pointer transition-all" onclick="handleBypassClick()"></i> Enter Password</h2>
+                    <p class="text-gray-600" id="passwordPrompt">Enter the password to continue</p>
+                </div>
+                
+                <!-- Password Display -->
+                <div class="mb-6">
+                    <div id="passwordDisplay" class="w-full h-16 bg-gray-100 rounded-lg border-2 border-gray-300 flex items-center justify-center text-3xl font-mono tracking-widest">
+                        ••••
+                    </div>
+                </div>
+                
+                <!-- Keypad -->
+                <div class="grid grid-cols-3 gap-3 mb-6">
+                    <button onclick="addPasswordDigit('1')" class="bg-gray-200 hover:bg-gray-300 text-2xl font-semibold py-4 rounded-lg transition-colors">1</button>
+                    <button onclick="addPasswordDigit('2')" class="bg-gray-200 hover:bg-gray-300 text-2xl font-semibold py-4 rounded-lg transition-colors">2</button>
+                    <button onclick="addPasswordDigit('3')" class="bg-gray-200 hover:bg-gray-300 text-2xl font-semibold py-4 rounded-lg transition-colors">3</button>
+                    <button onclick="addPasswordDigit('4')" class="bg-gray-200 hover:bg-gray-300 text-2xl font-semibold py-4 rounded-lg transition-colors">4</button>
+                    <button onclick="addPasswordDigit('5')" class="bg-gray-200 hover:bg-gray-300 text-2xl font-semibold py-4 rounded-lg transition-colors">5</button>
+                    <button onclick="addPasswordDigit('6')" class="bg-gray-200 hover:bg-gray-300 text-2xl font-semibold py-4 rounded-lg transition-colors">6</button>
+                    <button onclick="addPasswordDigit('7')" class="bg-gray-200 hover:bg-gray-300 text-2xl font-semibold py-4 rounded-lg transition-colors">7</button>
+                    <button onclick="addPasswordDigit('8')" class="bg-gray-200 hover:bg-gray-300 text-2xl font-semibold py-4 rounded-lg transition-colors">8</button>
+                    <button onclick="addPasswordDigit('9')" class="bg-gray-200 hover:bg-gray-300 text-2xl font-semibold py-4 rounded-lg transition-colors">9</button>
+                    <button onclick="clearPassword()" class="bg-red-200 hover:bg-red-300 text-xl font-semibold py-4 rounded-lg transition-colors"><i class="fas fa-backspace"></i></button>
+                    <button onclick="addPasswordDigit('0')" class="bg-gray-200 hover:bg-gray-300 text-2xl font-semibold py-4 rounded-lg transition-colors">0</button>
+                    <button onclick="submitPassword()" class="bg-green-200 hover:bg-green-300 text-xl font-semibold py-4 rounded-lg transition-colors"><i class="fas fa-check"></i></button>
+                </div>
+                
+                <!-- Error Message -->
+                <div id="passwordError" class="text-red-600 text-center font-semibold mb-4 hidden">
+                    <i class="fas fa-exclamation-triangle"></i> Incorrect password. Try again.
+                </div>
+                
+                <div class="flex justify-center">
+                    <button onclick="closePasswordModal()" class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-6 py-3 rounded-lg font-semibold">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+  </body>
+</html>
