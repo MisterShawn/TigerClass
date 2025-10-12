@@ -1,0 +1,37 @@
+        html, body {
+            height: 100%;
+            box-sizing: border-box;
+            font-family: 'Fredoka', sans-serif;
+        }
+        
+        * {
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+        }
+        
+        .emoji {
+            font-family: 'Noto Color Emoji', 'Apple Color Emoji', 'Segoe UI Emoji', sans-serif;
+        }
+        
+        .feeling-card {
+            transition: all 0.3s ease;
+        }
+        
+        .feeling-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        
+        .modal-backdrop {
+            backdrop-filter: blur(4px);
+        }
+        
+        .feeling-option {
+            transition: all 0.2s ease;
+        }
+        
+        .feeling-option:hover {
+            transform: scale(1.05);
+        }
