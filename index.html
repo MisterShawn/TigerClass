@@ -59,10 +59,8 @@
 </head>
 <body class="h-full bg-orange-300 p-6" id="mainBody">
     <div class="h-full flex flex-col">
-        <!-- Header -->
-        <header class="mb-8 flex-1">
-            <!-- Buttons Row -->
-            <nav class="flex justify-between items-center mb-6">
+        <!-- Top Nav -->
+        <nav class="flex justify-between items-center">
                 <div class="flex gap-2">
                     <button onclick="requestPassword('edit')" class="nav__button" id="editButton">
                         <i class="fas fa-edit"></i> Edit
@@ -75,16 +73,16 @@
                     <i class="fas fa-redo"></i> Reset
                 </button>
             </nav>
-            
-            <!-- Title Row -->
-            <div class="grid h-full text-center content-center">
-                <h1 class="text-3xl font-semibold text-white mb-2 md:text-5xl" id="mainTitle">🙁</h1>
-                <p class="text-lg text-white  opacity-90 md:text-2xl" id="subtitle">Page No Worky</p>
+        <!-- Header -->
+        <header>
+            <div class="title">
+                <h1 class="title__main" id="mainTitle">🙁</h1>
+                <h2 class="title__sub" id="subtitle">Page No Worky</h2>
             </div>
         </header>
 
         <!-- Students Grid -->
-        <div id="studentsGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 flex-1 content-center">
+        <div id="studentsGrid" class="flex-2 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 content-center">
             <!-- Student cards will be generated here -->
         </div>
 
@@ -106,9 +104,9 @@
                     </div>
                     
                     <!-- Title Row -->
-                    <div class="grid h-full text-center content-center">
-                        <h2 class="text-5xl font-semibold text-white mb-2" id="feelingsTitle">How are you feeling, <span id="selectedStudent" class="text-yellow-300"></span>?</h2>
-                        <p class="text-white text-2xl opacity-90" id="feelingsSubtitle">Choose the feeling that matches how you feel right now</p>
+                    <div class="title">
+                        <h1 class="title__main" id="feelingsTitle">How are you feeling, <span id="selectedStudent"></span>?</h1>
+                        <h2 class="title__sub" id="feelingsSubtitle">Choose the feeling that matches how you feel right now</h2>
                     </div>
                 </div>
                 

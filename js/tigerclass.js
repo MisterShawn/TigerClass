@@ -23,7 +23,7 @@ const defaultSettings = {
     subtitle: 'Click on your name to share your feelings!',
     feelingsTitle: 'How does {name} feel?',
     feelingsSubtitle: 'Choose the feeling that matches how you feel right now',
-    backgroundColor: 'bg-orange-300'
+    backgroundColor: 'bg-orange-400'
 };
 
 const colorPalette = [
@@ -209,7 +209,7 @@ function openFeelings(studentName) {
         nameBackgroundColor = settings.backgroundColor;
     }
 
-    document.getElementById('feelingsTitle').innerHTML = `${feelingsTitle.split(studentName)[0]}<span id="selectedStudent" class="bg-black text-white px-3 py-1 rounded-lg font-semibold">${studentName}</span>${feelingsTitle.split(studentName)[1] || ''}`;
+    document.getElementById('feelingsTitle').innerHTML = `${feelingsTitle.split(studentName)[0]}<span id="selectedStudent" class="inline-block bg-white text-black px-4 py-2 rounded-lg -rotate-1 text-6xl font-semibold">${studentName}</span>${feelingsTitle.split(studentName)[1] || ''}`;
 
     const feelingsGrid = document.getElementById('feelingsGrid');
     feelingsGrid.innerHTML = '';

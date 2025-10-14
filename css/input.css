@@ -1,4 +1,17 @@
 @import "tailwindcss";
+@theme {
+  --animate-blob: blob 60s ease-in-out infinite alternate;
+
+    @keyframes blob {
+        0%,
+        100% {
+            scale: 1;
+        }
+        50% {
+            scale: 0;
+        }
+    }
+}
 
 .settings__help {
     @apply bg-gray-100 rounded-lg p-4 border border-gray-200;
@@ -6,4 +19,20 @@
 
 .nav__button {
     @apply bg-black/50 hover:bg-black/80 text-white px-4 py-3 rounded-full transition-all flex items-center gap-2;
+}
+
+header {
+    @apply flex-1 self-center w-fit grid m-8;
+}
+
+.title {
+    @apply grid justify-items-center content-center text-center p-8;
+}
+
+.title__main {
+    @apply text-3xl font-semibold text-white mb-2 bg-black/50 rounded-2xl px-4 py-2 md:text-5xl;
+}
+
+.title__sub {
+    @apply w-fit text-lg text-black bg-white/50 rounded-xl px-4 py-2 rotate-1 md:text-xl;
 }
