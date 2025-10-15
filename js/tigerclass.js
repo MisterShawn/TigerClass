@@ -147,7 +147,7 @@ function initializeDashboard() {
                 card.className += ` ${feeling.color} border-black`;
             }
         } else {
-            card.className += ' bg-slate-200 border-black';
+            card.className += ' bg-black/50 border-black';
         }
 
         card.onclick = () => {
@@ -160,10 +160,10 @@ function initializeDashboard() {
         const textColorStyle = feeling && (feeling.color.startsWith('#') || feeling.color.startsWith('hsl')) ? `color: ${feeling.textColor};` : '';
 
         card.innerHTML = `
-                    <div class="text-5xl mb-3 emoji">${feeling ? feeling.emoji : '😊'}</div>
-                    <h3 class="font-medium text-2xl mb-1 ${feeling ? textColorClass : 'text-gray-800'}" style="${feeling ? textColorStyle : ''}"">${student}</h3>
-                    <p class="text-lg ${feeling ? textColorClass : 'text-transparent'}" style="${feeling ? textColorStyle : ''}">
-                        ${feeling ? feeling.name : 'Tap to share'}
+                    <div class="grid text-5xl mb-3 emoji">${feeling ? feeling.emoji : '😶'}</div>
+                    <p class="font-medium text-white text-stroke text-2xl mb-1">${student}</p>
+                    <p class="justify-self-center px-2 py-1 text-lg min-h-8 w-fit bg-black/50 text-white rounded-lg">
+                        ${feeling ? feeling.name : '?'}
                     </p>
                 `;
 
@@ -209,7 +209,7 @@ function openFeelings(studentName) {
         nameBackgroundColor = settings.backgroundColor;
     }
 
-    document.getElementById('feelingsTitle').innerHTML = `${feelingsTitle.split(studentName)[0]}<span id="selectedStudent" class="inline-block bg-white text-black px-4 py-2 rounded-lg -rotate-1 text-6xl font-semibold">${studentName}</span>${feelingsTitle.split(studentName)[1] || ''}`;
+    document.getElementById('feelingsTitle').innerHTML = `${feelingsTitle.split(studentName)[0]}<span id="selectedStudent" class="inline-block bg-white text-black border-2 border-black px-4 py-2 rounded-lg rotate-2 text-6xl font-semibold">${studentName}</span>${feelingsTitle.split(studentName)[1] || ''}`;
 
     const feelingsGrid = document.getElementById('feelingsGrid');
     feelingsGrid.innerHTML = '';
@@ -233,7 +233,7 @@ function openFeelings(studentName) {
 
         option.innerHTML = `
                     <div class="text-5xl mb-3 emoji">${feeling.emoji}</div>
-                    <p class="font-medium text-2xl ${textClass}" ${textStyle}>${feeling.name}</p>
+                    <p class="font-medium text-white text-stroke text-2xl mb-1">${feeling.name}</p>
                 `;
 
         feelingsGrid.appendChild(option);

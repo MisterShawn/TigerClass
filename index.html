@@ -117,7 +117,7 @@
         </div>
 
         <!-- Settings Modal -->
-        <div id="settingsModal" class="fixed inset-0 bg-black/50 modal-backdrop hidden items-center justify-center z-50">
+        <div id="settingsModal" class="fixed inset-0 bg-black/50 border-2 border-black modal-backdrop hidden items-center justify-center z-50">
             <div class="bg-white rounded-2xl p-6 m-4 max-w-4xl w-full h-[80%] flex flex-col">
                 <div class="flex justify-between items-center mb-6">
                     <h2 class="text-3xl font-semibold text-gray-800"><i class="fas fa-cog"></i> Settings</h2>
@@ -229,11 +229,11 @@
                                             <label class="block text-sm font-medium text-gray-700 mb-2">Text Color</label>
                                             <div class="flex gap-4">
                                                 <label class="flex items-center cursor-pointer">
-                                                    <input type="radio" name="textColor" value="black" checked class="mr-2">
-                                                    <span class="text-black font-medium">Dark Text</span>
+                                                    <input type="radio" name="textColor" value="black" disabled class="mr-2">
+                                                    <span class="text-gray-200 font-medium line-through">Dark Text</span>
                                                 </label>
                                                 <label class="flex items-center cursor-pointer">
-                                                    <input type="radio" name="textColor" value="white" class="mr-2">
+                                                    <input type="radio" name="textColor" value="white" checked class="mr-2">
                                                     <span class="text-white font-medium bg-gray-800 px-2 py-1 rounded">Light Text</span>
                                                 </label>
                                             </div>
@@ -245,7 +245,7 @@
                                         <button onclick="addFeeling()" id="addFeelingButton" class="flex-1 bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg font-semibold flex items-center justify-center gap-2">
                                             <i class="fas fa-plus"></i> Add Feeling
                                         </button>
-                                        <button onclick="deleteCurrentFeeling()" id="deleteFeelingButton" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg font-semibold hidden flex items-center gap-2">
+                                        <button onclick="deleteCurrentFeeling()" id="deleteFeelingButton" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg font-semibold flex items-center gap-2">
                                             <i class="fas fa-trash"></i> Delete
                                         </button>
                                     </div>
@@ -482,7 +482,7 @@
 
 
         <!-- Color Picker Modal -->
-        <div id="colorPickerModal" class="fixed inset-0 bg-black bg-opacity-50 modal-backdrop hidden items-center justify-center z-50">
+        <div id="colorPickerModal" class="fixed inset-0 bg-black/50 modal-backdrop hidden items-center justify-center z-50">
             <div class="bg-white rounded-2xl p-6 m-4 max-w-2xl w-full max-h-[90%] overflow-y-auto">
                 <div class="flex justify-between items-center mb-6">
                     <h2 class="text-2xl font-semibold text-gray-800"><i class="fas fa-palette"></i> Choose Color</h2>
@@ -522,7 +522,7 @@
         </div>
 
         <!-- Password Keypad Modal -->
-        <div id="passwordModal" class="fixed inset-0 bg-black bg-opacity-50 modal-backdrop hidden items-center justify-center z-50">
+        <div id="passwordModal" class="fixed inset-0 bg-black/50 modal-backdrop hidden items-center justify-center z-50">
             <div class="bg-white rounded-2xl p-6 m-4 max-w-md w-full">
                 <div class="text-center mb-6">
                     <h2 class="text-2xl font-semibold text-gray-800 mb-2"><i class="fas fa-lock cursor-pointer transition-all" onclick="handleBypassClick()"></i> Enter Password</h2>
