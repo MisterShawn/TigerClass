@@ -14,7 +14,7 @@ const defaultFeelings = [
     { name: 'Worried', emoji: '😰', color: 'bg-cyan-400', textColor: 'text-white' },
     { name: 'Frustrated', emoji: '😤', color: 'bg-red-400', textColor: 'text-white' },
     { name: 'Tired', emoji: '😴', color: 'bg-indigo-400', textColor: 'text-white' },
-    { name: 'Confused', emoji: '😕', color: 'bg-orange-400', textColor: 'text-white' },
+    { name: 'Confused', emoji: '😕', color: 'bg-amber-400', textColor: 'text-white' },
     { name: 'Nervous', emoji: '😬', color: 'bg-lime-400', textColor: 'text-white' }
 ];
 
@@ -147,7 +147,7 @@ function initializeDashboard() {
                 card.className += ` ${feeling.color} border-black`;
             }
         } else {
-            card.className += ' bg-black/50 border-black';
+            card.className += ' bg-white/40 border-black';
         }
 
         card.onclick = () => {
@@ -161,10 +161,8 @@ function initializeDashboard() {
 
         card.innerHTML = `
                     <div class="grid text-5xl mb-3 emoji">${feeling ? feeling.emoji : '😶'}</div>
-                    <p class="font-medium text-white text-stroke text-2xl mb-1">${student}</p>
-                    <p class="justify-self-center px-2 py-1 text-lg min-h-8 w-fit bg-black/50 text-white rounded-lg">
-                        ${feeling ? feeling.name : '?'}
-                    </p>
+                    <p class="font-medium text-white text-stroke text-2xl mb-1 md:text-3xl">${student}</p>
+                    <p class="justify-self-center px-2 py-1 text-lg w-fit bg-black/50 text-white rounded-lg min-h-10">${feeling ? feeling.name : ''}</p>
                 `;
 
         grid.appendChild(card);
@@ -209,7 +207,7 @@ function openFeelings(studentName) {
         nameBackgroundColor = settings.backgroundColor;
     }
 
-    document.getElementById('feelingsTitle').innerHTML = `${feelingsTitle.split(studentName)[0]}<span id="selectedStudent" class="inline-block bg-white text-black border-2 border-black px-4 py-2 rounded-lg rotate-2 text-6xl font-semibold">${studentName}</span>${feelingsTitle.split(studentName)[1] || ''}`;
+    document.getElementById('feelingsTitle').innerHTML = `${feelingsTitle.split(studentName)[0]}<span id="selectedStudent">${studentName}</span>${feelingsTitle.split(studentName)[1] || ''}`;
 
     const feelingsGrid = document.getElementById('feelingsGrid');
     feelingsGrid.innerHTML = '';
@@ -233,7 +231,7 @@ function openFeelings(studentName) {
 
         option.innerHTML = `
                     <div class="text-5xl mb-3 emoji">${feeling.emoji}</div>
-                    <p class="font-medium text-white text-stroke text-2xl mb-1">${feeling.name}</p>
+                    <p class="font-medium text-white text-stroke text-2xl mb-1 md:text-3xl">${feeling.name}</p>
                 `;
 
         feelingsGrid.appendChild(option);

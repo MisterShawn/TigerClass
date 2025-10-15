@@ -381,9 +381,6 @@
   .hidden {
     display: none;
   }
-  .inline-block {
-    display: inline-block;
-  }
   .inline-flex {
     display: inline-flex;
   }
@@ -411,8 +408,20 @@
   .max-h-\[90\%\] {
     max-height: 90%;
   }
+  .min-h-7 {
+    min-height: calc(var(--spacing) * 7);
+  }
   .min-h-8 {
     min-height: calc(var(--spacing) * 8);
+  }
+  .min-h-9 {
+    min-height: calc(var(--spacing) * 9);
+  }
+  .min-h-10 {
+    min-height: calc(var(--spacing) * 10);
+  }
+  .min-h-12 {
+    min-height: calc(var(--spacing) * 12);
   }
   .w-11 {
     width: calc(var(--spacing) * 11);
@@ -451,9 +460,6 @@
   .-translate-x-1\/2 {
     --tw-translate-x: calc(calc(1/2 * 100%) * -1);
     translate: var(--tw-translate-x) var(--tw-translate-y);
-  }
-  .rotate-2 {
-    rotate: 2deg;
   }
   .transform {
     transform: var(--tw-rotate-x,) var(--tw-rotate-y,) var(--tw-rotate-z,) var(--tw-skew-x,) var(--tw-skew-y,);
@@ -781,6 +787,30 @@
   }
   .bg-white {
     background-color: var(--color-white);
+  }
+  .bg-white\/20 {
+    background-color: color-mix(in srgb, #fff 20%, transparent);
+    @supports (color: color-mix(in lab, red, red)) {
+      background-color: color-mix(in oklab, var(--color-white) 20%, transparent);
+    }
+  }
+  .bg-white\/30 {
+    background-color: color-mix(in srgb, #fff 30%, transparent);
+    @supports (color: color-mix(in lab, red, red)) {
+      background-color: color-mix(in oklab, var(--color-white) 30%, transparent);
+    }
+  }
+  .bg-white\/40 {
+    background-color: color-mix(in srgb, #fff 40%, transparent);
+    @supports (color: color-mix(in lab, red, red)) {
+      background-color: color-mix(in oklab, var(--color-white) 40%, transparent);
+    }
+  }
+  .bg-white\/50 {
+    background-color: color-mix(in srgb, #fff 50%, transparent);
+    @supports (color: color-mix(in lab, red, red)) {
+      background-color: color-mix(in oklab, var(--color-white) 50%, transparent);
+    }
   }
   .bg-yellow-50 {
     background-color: var(--color-yellow-50);
@@ -1417,6 +1447,12 @@
       grid-template-columns: repeat(3, minmax(0, 1fr));
     }
   }
+  .md\:text-3xl {
+    @media (width >= 48rem) {
+      font-size: var(--text-3xl);
+      line-height: var(--tw-leading, var(--text-3xl--line-height));
+    }
+  }
   .lg\:grid-cols-4 {
     @media (width >= 64rem) {
       grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -1427,7 +1463,7 @@ body {
   paint-order: stroke fill;
 }
 .text-stroke {
-  -webkit-text-stroke: .4ch black;
+  -webkit-text-stroke: .325rem black;
 }
 .settings__help {
   border-radius: var(--radius-lg);
@@ -1482,13 +1518,6 @@ header {
 .title__main {
   margin-bottom: calc(var(--spacing) * 2);
   border-radius: var(--radius-2xl);
-  border-style: var(--tw-border-style);
-  border-width: 2px;
-  border-color: var(--color-black);
-  background-color: color-mix(in srgb, #000 50%, transparent);
-  @supports (color: color-mix(in lab, red, red)) {
-    background-color: color-mix(in oklab, var(--color-black) 50%, transparent);
-  }
   padding-inline: calc(var(--spacing) * 6);
   padding-block: calc(var(--spacing) * 3);
   font-size: var(--text-3xl);
@@ -1497,21 +1526,14 @@ header {
   font-weight: var(--font-weight-semibold);
   color: var(--color-white);
   @media (width >= 48rem) {
-    font-size: var(--text-5xl);
-    line-height: var(--tw-leading, var(--text-5xl--line-height));
+    font-size: var(--text-6xl);
+    line-height: var(--tw-leading, var(--text-6xl--line-height));
   }
 }
 .title__sub {
   width: fit-content;
   max-width: 40vw;
   border-radius: var(--radius-xl);
-  border-style: var(--tw-border-style);
-  border-width: 2px;
-  border-color: var(--color-black);
-  background-color: color-mix(in srgb, #fff 50%, transparent);
-  @supports (color: color-mix(in lab, red, red)) {
-    background-color: color-mix(in oklab, var(--color-white) 50%, transparent);
-  }
   padding-inline: calc(var(--spacing) * 4);
   padding-block: calc(var(--spacing) * 2);
   font-size: var(--text-lg);
@@ -1521,6 +1543,26 @@ header {
     font-size: var(--text-xl);
     line-height: var(--tw-leading, var(--text-xl--line-height));
   }
+}
+#selectedStudent {
+  -webkit-text-stroke: 0;
+  display: inline-block;
+  rotate: 2deg;
+  border-radius: var(--radius-lg);
+  border-style: var(--tw-border-style);
+  border-width: 2px;
+  border-color: var(--color-black);
+  background-color: var(--color-white);
+  padding-inline: calc(var(--spacing) * 4);
+  padding-block: calc(var(--spacing) * 2);
+  font-size: var(--text-6xl);
+  line-height: var(--tw-leading, var(--text-6xl--line-height));
+  --tw-font-weight: var(--font-weight-semibold);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-black);
+}
+.feeling-card p:empty {
+  background-color: transparent;
 }
 @property --tw-translate-x {
   syntax: "*";

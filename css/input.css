@@ -1,11 +1,12 @@
 @import "tailwindcss";
 @theme {
 }
+
 body {
     paint-order: stroke fill;
 }
 
-.text-stroke { -webkit-text-stroke: .4ch black; }
+.text-stroke { -webkit-text-stroke: .325rem black; }
 
 .settings__help {
     @apply bg-gray-100 rounded-lg p-4 border border-gray-200;
@@ -24,9 +25,18 @@ header {
 }
 
 .title__main {
-    @apply text-3xl font-semibold text-white mb-2 bg-black/50 border-2 border-black rounded-2xl px-6 py-3 md:text-5xl;
+    @apply text-3xl font-semibold text-white mb-2 rounded-2xl px-6 py-3 md:text-6xl;
 }
 
 .title__sub {
-    @apply w-fit text-lg text-black bg-white/50 border-2 border-black rounded-xl px-4 py-2 max-w-[40vw] md:text-xl;
+    @apply w-fit text-lg text-black rounded-xl px-4 py-2 max-w-[40vw] md:text-xl;
+}
+
+#selectedStudent {
+    -webkit-text-stroke: 0;
+    @apply inline-block bg-white text-black border-2 border-black px-4 py-2 rounded-lg rotate-2 text-6xl font-semibold;
+}
+
+.feeling-card p:empty {
+    background-color: transparent;
 }
