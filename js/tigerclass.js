@@ -161,7 +161,7 @@ function initializeDashboard() {
 
         card.innerHTML = `
                     <div class="grid text-5xl mb-3 emoji">${feeling ? feeling.emoji : '😶'}</div>
-                    <p class="font-medium text-white text-stroke text-2xl mb-1 md:text-3xl">${student}</p>
+                    <p class="font-medium text-white text-2xl mb-1 text-stroke md:text-3xl">${student}</p>
                     <p class="justify-self-center px-2 py-1 text-lg w-fit bg-black/50 text-white rounded-lg min-h-10">${feeling ? feeling.name : ''}</p>
                 `;
 
@@ -176,12 +176,12 @@ function updatePageAppearance() {
 
     if (settings.backgroundColorHex) {
         mainBody.style.backgroundColor = settings.backgroundColorHex;
-        mainBody.className = 'h-full p-6';
+        mainBody.className = 'h-full p-4';
         feelingsModal.style.backgroundColor = settings.backgroundColorHex;
         feelingsModal.className = 'hidden';
     } else {
         mainBody.style.backgroundColor = '';
-        mainBody.className = `h-full ${settings.backgroundColor} p-6`;
+        mainBody.className = `h-full ${settings.backgroundColor} p-4`;
         feelingsModal.style.backgroundColor = '';
         feelingsModal.className = `hidden`;
     }

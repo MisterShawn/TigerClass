@@ -1,40 +1,56 @@
 @import "tailwindcss";
+
 @theme {
+  --animate-wiggle: wiggle 1s ease-in-out infinite;
+  @keyframes wiggle {
+    0%,
+    100% {
+      transform: rotate(-3deg);
+    }
+    50% {
+      transform: rotate(3deg);
+    }
+  }
+}
+
+@layer utilities {
+  .text-stroke {
+    -webkit-text-stroke: .275rem black;
+  }
 }
 
 body {
     paint-order: stroke fill;
 }
 
-.text-stroke { -webkit-text-stroke: .325rem black; }
-
 .settings__help {
     @apply bg-gray-100 rounded-lg p-4 border border-gray-200;
 }
 
 .nav__button {
-    @apply bg-black/50 hover:bg-black/80 text-white border-2 border-black px-4 py-3 rounded-full transition-all flex items-center gap-2;
+    @apply text-sm bg-black/30 hover:bg-black/60 text-white border-2 border-black/20 px-4 py-2 rounded-full transition-all flex items-center gap-2;
 }
 
 header {
-    @apply flex-1 self-center w-fit grid m-8;
+    @apply w-full;
 }
 
 .title {
-    @apply grid gap-2 justify-items-center content-center text-center p-8;
+    @apply grid gap-2 justify-items-center;
 }
 
 .title__main {
-    @apply text-3xl font-semibold text-white mb-2 rounded-2xl px-6 py-3 md:text-6xl;
+    -webkit-text-stroke: .425rem black;
+    @apply text-3xl font-semibold text-white rounded-2xl md:text-6xl;
 }
 
 .title__sub {
-    @apply w-fit text-lg text-black rounded-xl px-4 py-2 max-w-[40vw] md:text-xl;
+    @apply w-fit text-center text-lg text-black rounded-xl max-w-[40vw] md:text-xl;
 }
 
 #selectedStudent {
     -webkit-text-stroke: 0;
-    @apply inline-block bg-white text-black border-2 border-black px-4 py-2 rounded-lg rotate-2 text-6xl font-semibold;
+    @apply inline-block bg-white text-black border-2 border-black px-4 py-2 rounded-lg text-4xl font-semibold shadow-xl animate-wiggle md:text-6xl;
 }
 
 .feeling-card p:empty {

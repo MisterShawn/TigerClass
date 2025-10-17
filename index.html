@@ -57,10 +57,10 @@
         }
     </style>
 </head>
-<body class="h-full bg-orange-300 p-6" id="mainBody">
-    <div class="h-full flex flex-col">
+<body class="h-full bg-orange-300 p-4" id="mainBody">
+    <div class="h-full grid gap-4">
         <!-- Top Nav -->
-        <nav class="flex justify-between items-center">
+        <nav class="max-h-fit flex justify-between items-center">
                 <div class="flex gap-2">
                     <button onclick="requestPassword('edit')" class="nav__button" id="editButton">
                         <i class="fas fa-edit"></i> Edit
@@ -76,19 +76,19 @@
         <!-- Header -->
         <header>
             <div class="title">
-                <h1 class="title__main text-stroke" id="mainTitle">🙁</h1>
+                <h1 class="title__main" id="mainTitle">🙁</h1>
                 <h2 class="title__sub" id="subtitle">Page No Worky</h2>
             </div>
         </header>
 
         <!-- Students Grid -->
-        <div id="studentsGrid" class="flex-2 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 content-center">
+        <div id="studentsGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 content-end">
             <!-- Student cards will be generated here -->
         </div>
 
         <!-- Feelings Modal -->
         <div id="feelingsModal" class="fixed inset-0 bg-orange-400 hidden z-40">
-            <div class="h-full flex flex-col p-6">
+            <div class="h-full flex flex-col p-4">
                 <!-- Header -->
                 <div class="mb-8 flex-1">
                     <!-- Buttons Row -->
@@ -105,7 +105,7 @@
                     
                     <!-- Title Row -->
                     <div class="title">
-                        <h1 class="title__main text-stroke" id="feelingsTitle">How are you feeling, <span id="selectedStudent"></span>?</h1>
+                        <h1 class="title__main" id="feelingsTitle">How are you feeling, <span id="selectedStudent"></span>?</h1>
                         <h2 class="title__sub" id="feelingsSubtitle">Choose the feeling that matches how you feel right now</h2>
                     </div>
                 </div>
