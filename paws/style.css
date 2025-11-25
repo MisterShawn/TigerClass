@@ -1,16 +1,18 @@
+    @import url(open-props.min.css);
+    
     body {
         box-sizing: border-box;
     }
 
     /* CSS Custom Properties for theming and easy maintenance */
     :root {
-        --color-background: #FFF4E6;
+        --color-background: var(--orange-1);
         --color-surface: #FFFFFF;
         --color-text: #2C3E50;
-        --color-primary: #FF6B6B;
-        --color-secondary: #4ECDC4;
-        --color-success: #51CF66;
-        --color-error: #FF6B6B;
+        --color-primary: var(--orange-7);
+        --color-secondary: var(--cyan-7);
+        --color-success: var(--green-6);
+        --color-error: var(--red-6);
         --color-shadow: rgba(0, 0, 0, 0.1);
 
         --spacing-xs: 0.5rem;
@@ -63,18 +65,23 @@
 
     /* BEM: Header Block */
     .header {
-        display: flex;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
         justify-content: center;
         gap: var(--spacing-lg);
     }
 
     .header__title {
+        grid-column: 2;
+        text-align: center;
         font-size: calc(var(--font-size-base) * 2.5);
         color: var(--color-primary);
         text-shadow: 2px 2px 4px var(--color-shadow);
     }
 
     .header__settings-btn {
+        grid-column: 3;
+        text-align: right;
         font-size: calc(var(--font-size-base) * 2.5);
         cursor: pointer;
     }

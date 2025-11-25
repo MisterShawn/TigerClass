@@ -1,3 +1,18 @@
 {
-    "liveServer.settings.port": 5502
+    "liveServer.settings.port": 5502,
+    "cssvar.files": [
+        "./paws/open-props.min.css",
+        // if you have an alternative path to where your styles are located
+        // you can add it in this array of files
+        "./paws/style.css"
+    ],
+    // Do not ignore node_modules css files, which is ignored by default
+    "cssvar.ignore": [],
+    // add support for autocomplete in JS or JS like files
+    "cssvar.extensions": [
+        "css",
+        "postcss",
+        "jsx",
+        "tsx"
+    ]
 }
